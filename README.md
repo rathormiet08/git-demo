@@ -1,2 +1,2 @@
 # git-demo
-git-repo
+THis is my first git demo learning file.
