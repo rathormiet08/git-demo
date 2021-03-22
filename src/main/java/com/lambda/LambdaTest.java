@@ -1,3 +1,4 @@
+package com.lambda;
 
 public class LambdaTest// implements FunctionalTest 
 {
