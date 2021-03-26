@@ -22,7 +22,8 @@ public class CustomHashMap<K, V> {
 		size = 0;
 	}
 
-	// @SuppressWarnings("unchecked")
+	
+	@SuppressWarnings("unchecked")
 	private void initBucket(int N) {
 		buckets = new LinkedList[N];
 		for (int i = 0; i < buckets.length; i++) {
@@ -44,10 +45,12 @@ public class CustomHashMap<K, V> {
 
 		double lambda = size * 1.0 / buckets.length;
 		if (lambda > 2.0) {
+			System.out.println("calling rehashing---");
 			rehash();
 		}
 	}
 
+	
 	V get(K key) {
 		int bi = getBucketIndex(key);
 		int di = getBucketDataIndex(key, bi);
@@ -58,8 +61,24 @@ public class CustomHashMap<K, V> {
 			return null;
 		}
 
-		
 	}
+	
+	String remove(K key) {
+		int bi = getBucketIndex(key);
+		int di = getBucketDataIndex(key, bi);
+		if (di != -1) {
+			HMNode hmNode = buckets[bi].remove();
+			return " successfully removed item :: "+hmNode.value;
+		} else {
+			return null;
+		}
+
+	}
+	
+	int getSize() {
+		return size;
+	}
+
 	private void rehash() {
 		LinkedList<HMNode>[] obl = buckets;
 		initBucket(obl.length * 2);
@@ -88,7 +107,25 @@ public class CustomHashMap<K, V> {
 
 		return hashCode % buckets.length;
 	}
+void display(CustomHashMap<String, Integer> hm,String key) {
+	int size2 = hm.getSize();
+	while(size2>0) {
+		System.out.println("==="+hm.get(key));
+		size2--;
+	}
+}
 
+/*List<K> keyList(CustomHashMap<String, Integer> hm){
+	int size2 = hm.getSize();
+	List<K> list=new ArrayList<>();
+	
+	while(size2>0) {
+		System.out.println("==="+hm.get(key));
+		//list.add(hm.ge);
+		size2--;
+	}
+	return null;
+}*/
 	public static void main(String[] args) {
 		CustomHashMap<String, Integer> hm = new CustomHashMap<>();
 		hm.put("India", 200);
@@ -100,7 +137,12 @@ public class CustomHashMap<K, V> {
 		hm.put("Brazil", 20);
 		hm.put("Canada", 50);
 		hm.put("Dubai", 50);
+		System.out.println("size==="+hm.getSize());
 		System.out.println(hm.get("Pak"));
+		hm.remove("Pak");
+		
+		System.out.println("again fetching key after removing===="+hm.get("Pak"));
+		//hm.display(hm, key);
 	}
 
 }
